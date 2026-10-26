@@ -1,0 +1,126 @@
+#include <stdio.h>
+
+// Function to check if a string is a palindrome
+int palindrome(char input[]) {
+    int i = 0, j = 0;
+    
+    // Find the end of the string
+    while (input[j] != '\0') {
+        j++;
+    }
+    j--; // Move back to the last valid character
+
+    // Check characters from both ends towards the center
+    while (i < j) {
+        if (input[i] != input[j]) {
+            return 0; // Not a palindrome
+        }
+        i++;
+        j--;
+    }
+    return 1; // Is a palindrome
+}
+
+// Function to copy source string to target string
+void copy(char input[], char output[]) {
+    int i;
+    for (i = 0; input[i] != '\0'; i++) {
+        output[i] = input[i];
+    }
+    output[i] = '\0';
+}
+
+// Function to calculate string length
+int stringlength(char input[]) {
+    int i = 0;
+    while (input[i] != '\0') {
+        i++;
+    }
+    return i;
+}
+
+// Function to extract substring starting from a given position
+void substring(char input[]) {
+    int n, i = 0, p;
+    char output[10];
+
+    printf("Enter Substring Position (0-indexed): ");
+    scanf("%d", &p);
+
+    n = stringlength(input);
+
+    if (p >= 0 && p < n) {
+        // Extract remaining characters starting at position p
+        for (i = 0; (p + i < n) && (i < 9); i++) {
+            output[i] = input[p + i];
+        }
+        output[i] = '\0'; // Properly null-terminate
+        printf("The Substring is: %s\n", output);
+    } else {
+        printf("Invalid Position\n");
+    }
+}
+
+// Function to reverse a string
+void reverse(char input[], char output[]) {
+    int i, n = stringlength(input);
+
+    for (i = 0; i < n; i++) {
+        output[i] = input[n - 1 - i];
+    }
+    output[i] = '\0'; // Null-terminate reversed string
+
+    printf("Reversed: %s\n", output);
+}
+
+int main() {
+    char str[10], output[10];
+    int ch, c, len;
+
+    printf("Enter The String: ");
+    scanf("%9s", str); // Safely limit input size to avoid buffer overflow
+
+    printf("\n--- String Operations Menu ---");
+    printf("\n1. Palindrome Check");
+    printf("\n2. Copy String");
+    printf("\n3. Extract Substring");
+    printf("\n4. String Length");
+    printf("\n5. Reverse String");
+    printf("\nEnter your choice: ");
+    scanf("%d", &ch);
+
+    switch (ch) {
+        case 1:
+            c = palindrome(str);
+            if (c == 1) {
+                printf("The string is a palindrome.\n");
+            } else {
+                printf("The string is not a palindrome.\n");
+            }
+            break;
+
+        case 2:
+            copy(str, output);
+            printf("Copied String = %s\n", output);
+            break;
+
+        case 3:
+            substring(str);
+            break;
+
+        case 4:
+            len = stringlength(str);
+            printf("Length = %d\n", len);
+            break;
+
+        case 5:
+            reverse(str, output);
+            break;
+
+        default:
+            printf("Invalid Choice\n");
+            break;
+    }
+
+    return 0;
+}
