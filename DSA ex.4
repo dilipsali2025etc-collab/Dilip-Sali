@@ -1,0 +1,145 @@
+#include <stdio.h>
+
+struct Student {
+    int roll;
+    char name[30];
+    float marks;
+};
+
+struct Student s[100];
+int n = 0;
+
+// Function to add new student records
+void create() {
+    int count;
+    printf("How many records to add? ");
+    scanf("%d", &count);
+
+    if (n + count > 100) {
+        printf("Error: Exceeds maximum capacity of 100 records.\n");
+        return;
+    }
+
+    for (int i = 0; i < count; i++) {
+        printf("Enter roll, name, marks for record %d: ", n + 1);
+        scanf("%d %29s %f", &s[n].roll, s[n].name, &s[n].marks);
+        n++;
+    }
+}
+
+// Function to display all student records
+void display() {
+    if (n == 0) {
+        printf("No records found.\n");
+        return;
+    }
+
+    printf("\n--- Student Records ---\n");
+    printf("Roll\tName\t\tMarks\n");
+    printf("-------------------------------\n");
+    for (int i = 0; i < n; i++) {
+        printf("%d\t%-15s%.2f\n", s[i].roll, s[i].name, s[i].marks);
+    }
+}
+
+// Function to modify an existing record by roll number
+void modify() {
+    int r, found = 0;
+    printf("Enter roll number to modify: ");
+    scanf("%d", &r);
+
+    for (int i = 0; i < n; i++) {
+        if (s[i].roll == r) {
+            printf("Enter new name and marks: ");
+            scanf("%29s %f", s[i].name, &s[i].marks);
+            printf("Record modified successfully.\n");
+            found = 1;
+            break;
+        }
+    }
+
+    if (!found) {
+        printf("Record not found.\n");
+    }
+}
+
+// Function to search for a record by roll number
+void search() {
+    int r, found = 0;
+    printf("Enter roll number to search: ");
+    scanf("%d", &r);
+
+    for (int i = 0; i < n; i++) {
+        if (s[i].roll == r) {
+            printf("Found Record: Roll: %d | Name: %s | Marks: %.2f\n", s[i].roll, s[i].name, s[i].marks);
+            found = 1;
+            break;
+        }
+    }
+
+    if (!found) {
+        printf("Record not found.\n");
+    }
+}
+
+// Function to sort records by roll number using Bubble Sort
+void sort() {
+    struct Student temp;
+
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (s[j].roll > s[j + 1].roll) {
+                temp = s[j];
+                s[j] = s[j + 1];
+                s[j + 1] = temp;
+            }
+        }
+    }
+
+    printf("Records sorted by roll number.\n");
+}
+
+int main() {
+    int ch;
+
+    do {
+        printf("\n=== Student Database Menu ===\n");
+        printf("1. Create / Add Records\n");
+        printf("2. Display All Records\n");
+        printf("3. Modify Record\n");
+        printf("4. Search Record\n");
+        printf("5. Sort Records\n");
+        printf("0. Exit\n");
+        printf("Enter choice: ");
+
+        if (scanf("%d", &ch) != 1) {
+            printf("Invalid input.\n");
+            break;
+        }
+
+        switch (ch) {
+            case 1:
+                create();
+                break;
+            case 2:
+                display();
+                break;
+            case 3:
+                modify();
+                break;
+            case 4:
+                search();
+                break;
+            case 5:
+                sort();
+                break;
+            case 0:
+                printf("Exiting application...\n");
+                break;
+            default:
+                printf("Invalid choice! Please try again.\n");
+        }
+    } while (ch != 0);
+
+    return 0;
+}
